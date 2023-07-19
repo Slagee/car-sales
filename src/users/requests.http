@@ -6,3 +6,12 @@ Content-Type: application/json
     "email": "asdf@asda.com",
     "password": "string"
 }
+
+### Wrong email while creating a new user
+POST http://localhost:3000/auth/signup
+Content-Type: application/json
+
+{
+    "email": "asdf@com",
+    "password": "string"
+}
