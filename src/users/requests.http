@@ -7,6 +7,15 @@ Content-Type: application/json
     "password": "jnofnwoiemocwm"
 }
 
+### Sign in an existing user
+POST http://localhost:3000/auth/signin
+Content-Type: application/json
+
+{
+    "email": "test@mail.com",
+    "password": "jnofnwoiemocwm"
+}
+
 ### Wrong email while creating a new user
 POST http://localhost:3000/auth/signup
 Content-Type: application/json

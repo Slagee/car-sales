@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { scrypt as _scrypt, randomBytes } from "crypto";
 import { promisify } from "util";
@@ -12,7 +12,7 @@ export class AuthService {
     async signup(email: string, password: string) {
         const users = await this.usersService.find(email);
         if(users.length) {
-            throw new BadRequestException('User with provided email already exists!');
+            throw new BadRequestException('User with provided email already exist');
         }
 
         // Creating a 16 characters long salt
@@ -27,6 +27,21 @@ export class AuthService {
         return user;
     }
 
-    signin(email: string, password: string) {
+    async signin(email: string, password: string) {
+        const [user] = await this.usersService.find(email);
+
+        if(!user) {
+            throw new NotFoundException('User with provided email does not exist');
+        }
+
+        const [salt, hash] = user.password.split('.');
+
+        const hashBuffer = (await scrypt(password, salt, 32)) as Buffer;
+
+        if (hashBuffer.toString('hex') !== hash) {
+            throw new BadRequestException('Bad password');
+        }
+
+        return user;
     }
 }
