@@ -3,8 +3,17 @@ POST http://localhost:3000/auth/signup
 Content-Type: application/json
 
 {
-    "email": "asdf@asda.com",
-    "password": "string"
+    "email": "test@mail.com",
+    "password": "jnofnwoiemocwm"
+}
+
+### Sign in an existing user
+POST http://localhost:3000/auth/signin
+Content-Type: application/json
+
+{
+    "email": "test@mail.com",
+    "password": "jnofnwoiemocwm"
 }
 
 ### Wrong email while creating a new user
@@ -32,3 +41,9 @@ Content-Type: application/json
 {
     "email": "email@smartmail.com"
 }
+
+### Get currently signed in user
+GET http://localhost:3000/auth/whoami
+
+### Sign out
+POST http://localhost:3000/auth/signout
