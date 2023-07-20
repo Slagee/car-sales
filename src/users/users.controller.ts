@@ -5,6 +5,7 @@ import { UpdateUserDto } from './dtos/update-user.dto';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 import { AuthService } from './auth.service';
+import { CurrentUser } from './decorators/current-user.decorator';
 
 @Controller('auth')
 @Serialize(UserDto)
@@ -13,13 +14,12 @@ export class UsersController {
     constructor(private usersService: UsersService, private authService: AuthService) {}
 
     @Get('/whoami')
-    whoAmI(@Session() session: any) {
-        const userId = this.usersService.findOne(session.userId);
-        if (!userId) {
+    whoAmI(@CurrentUser() user: string) {
+        if (!user) {
             throw new NotFoundException('No signed in user');
         }
 
-        return this.usersService.findOne(session.userId);
+        return user;
     }
 
     @Post('/signup')
