@@ -12,12 +12,27 @@ export class UsersController {
 
     constructor(private usersService: UsersService, private authService: AuthService) {}
 
+    @Get('/whoami')
+    whoAmI(@Session() session: any) {
+        const userId = this.usersService.findOne(session.userId);
+        if (!userId) {
+            throw new NotFoundException('No signed in user');
+        }
+
+        return this.usersService.findOne(session.userId);
+    }
+
     @Post('/signup')
     async createUser(@Body() body: CreateUserDto, @Session() session: any) {
         const user = await this.authService.signup(body.email, body.password);
         session.userId = user.id;
 
         return user;
+    }
+
+    @Post('/signout')
+    signout(@Session() session: any) {
+        session.userId = null;
     }
 
     @Post('/signin')
