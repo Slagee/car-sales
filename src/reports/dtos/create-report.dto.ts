@@ -11,7 +11,7 @@ export class CreateReportDto {
   @Min(1930)
   @Max(2050)
   year: number;
-    
+  
   @IsLongitude()
   lng: number;
   
