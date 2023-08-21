@@ -1,0 +1,12 @@
+POST http://localhost:3000/reports
+Content-Type: application/json
+
+{
+  "make": "Skoda",
+  "model": "Octavia",
+  "year": 2010,
+  "mileage": 10000,
+  "price": 100000,
+  "lat": 0,
+  "lng": 0
+}
